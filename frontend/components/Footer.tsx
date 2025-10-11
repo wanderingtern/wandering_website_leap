@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-center md:text-left">
             <h3 className="text-xl font-bold text-white mb-2">
-              Wandering Tern Energy Consulting
+              Wandering Tern
             </h3>
             <p className="text-sm">
               Alaska's trusted independent energy rating professional
@@ -13,8 +13,7 @@ export default function Footer() {
           </div>
           <div className="text-center md:text-right">
             <p className="text-sm">
-              © {new Date().getFullYear()} Wandering Tern Energy Consulting.
-              All rights reserved.
+              © {new Date().getFullYear()} Wandering Tern. All rights reserved.
             </p>
             <p className="text-sm mt-1">
               AHFC Certified Energy Rater
