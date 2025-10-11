@@ -102,10 +102,10 @@ export default function Contact() {
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-1">Email</h4>
                   <a
-                    href="mailto:info@wanderingternenergy.com"
+                    href="mailto:matt@wanderingtern.com"
                     className="text-teal-600 hover:text-teal-700"
                   >
-                    info@wanderingternenergy.com
+                    matt@wanderingtern.com
                   </a>
                 </div>
               </div>
@@ -125,9 +125,12 @@ export default function Contact() {
             </div>
             <div className="mt-8">
               <img
-                src="https://images.unsplash.com/photo-1548610325-5f8f2b7e6f5f?q=80&w=2070&auto=format&fit=crop"
-                alt="Cozy Alaska home interior"
+                src="https://images.unsplash.com/photo-1712669869857-c9c0c098d024?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+                alt="Cozy Alaska cabin interior with fireplace"
                 className="rounded-lg shadow-lg w-full h-64 object-cover"
+                data-unsplash-id="944lnTBAad8"
+                data-unsplash-author="Visual Laurence"
+                data-unsplash-query="cozy alaska cabin interior fireplace warm"
               />
             </div>
           </div>
