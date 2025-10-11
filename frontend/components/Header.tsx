@@ -10,16 +10,8 @@ export default function Header() {
             <img
               src="https://i.imgur.com/5FVZ3K6.png"
               alt="Wandering Tern Energy Logo"
-              className="h-12 w-12 object-contain"
+              className="h-16 w-auto object-contain"
             />
-            <div className="flex flex-col">
-              <span className="text-xl font-bold text-gray-900">
-                Wandering Tern Energy Consulting
-              </span>
-              <span className="text-sm text-gray-600 hidden sm:block">
-                Alaska Home Energy Audits
-              </span>
-            </div>
           </div>
           <Button
             asChild
