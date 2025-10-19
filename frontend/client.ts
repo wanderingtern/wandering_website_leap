@@ -94,9 +94,6 @@ export namespace contact {
             this.submit = this.submit.bind(this)
         }
 
-        /**
-         * Submits a contact form inquiry to the database.
-         */
         public async submit(params: RequestType<typeof api_contact_submit_submit>): Promise<ResponseType<typeof api_contact_submit_submit>> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI(`/contact/submit`, {method: "POST", body: JSON.stringify(params)})
