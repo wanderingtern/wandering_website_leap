@@ -1,28 +1,24 @@
 import { Phone } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img
-              src="https://i.imgur.com/5FVZ3K6.png"
-              alt="Wandering Tern Energy Logo"
-              className="h-16 w-auto object-contain"
-            />
-          </div>
-          <Button
-            asChild
-            className="bg-teal-600 hover:bg-teal-700 text-white"
-          >
-            <a href="tel:907-727-0443" className="flex items-center gap-2">
-              <Phone className="h-4 w-4" />
-              <span className="hidden sm:inline">Call</span> 907-727-0443
-            </a>
-          </Button>
+    <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50">
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="flex items-center">
+          <img
+            src="https://i.imgur.com/5FVZ3K6.png"
+            alt="Wandering Tern Energy"
+            className="h-12 w-auto"
+          />
         </div>
+        <a
+          href="tel:907-727-0443"
+          className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105"
+        >
+          <Phone className="h-5 w-5" />
+          <span className="hidden sm:inline">Call Now</span>
+          <span className="sm:hidden">Call</span>
+        </a>
       </div>
     </header>
   );

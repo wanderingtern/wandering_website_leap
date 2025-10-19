@@ -1,102 +1,60 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { ClipboardCheck, DollarSign, Target } from "lucide-react";
 
 const services = [
   {
-    title: "Home Energy Rating",
-    price: "$450-$600",
+    icon: ClipboardCheck,
+    title: "Energy Audits & Ratings",
     description:
-      "Comprehensive energy audit including blower door test, thermal imaging, and detailed report. Required for AHFC rebates.",
-    features: [
-      "Blower door test",
-      "Thermal imaging",
-      "Detailed report",
-      "AHFC certification",
-    ],
+      "Comprehensive home energy assessments including blower door testing, thermal imaging, and detailed reports.",
   },
   {
-    title: "Post-Improvement Rating",
-    price: "$250",
+    icon: DollarSign,
+    title: "AHFC Rebate Support",
     description:
-      "Follow-up rating after improvements to verify work and unlock rebates.",
-    features: [
-      "Verification test",
-      "Updated certification",
-      "Rebate documentation",
-    ],
+      "Navigate Alaska Housing Finance Corporation programs and maximize your rebates.",
   },
   {
-    title: "Additional Blower Door Testing",
-    price: "$250+",
+    icon: Target,
+    title: "Expert Guidance",
     description:
-      "Extra testing for troubleshooting or verifying air sealing work.",
-    features: ["Detailed diagnostics", "Air leakage analysis", "Problem identification"],
-  },
-  {
-    title: "Energy Consulting",
-    price: "$90/hour",
-    description:
-      "Expert advice on energy efficiency, building science, and HVAC systems.",
-    features: [
-      "Technical guidance",
-      "Project planning",
-      "Problem solving",
-    ],
+      "Unbiased recommendations to improve comfort, reduce energy costs, and solve problems.",
   },
 ];
 
 export default function Services() {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-            Services & Pricing
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+            Our Services
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Professional energy auditing services for homeowners throughout
-            Alaska
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+            Comprehensive energy solutions for Alaska homes
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {services.map((service, index) => (
-            <Card
-              key={index}
-              className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-            >
-              <CardHeader>
-                <CardTitle className="text-xl">{service.title}</CardTitle>
-                <div className="text-3xl font-bold text-teal-600">
-                  {service.price}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {services.map((service, index) => {
+            const Icon = service.icon;
+            return (
+              <div
+                key={index}
+                className="bg-slate-50 p-8 rounded-xl hover:bg-teal-50 transition-all duration-300 hover:-translate-y-1 border-2 border-transparent hover:border-teal-600"
+              >
+                <div className="flex items-center justify-center w-16 h-16 bg-teal-600 rounded-full mb-6">
+                  <Icon className="h-8 w-8 text-white" />
                 </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">{service.description}</p>
-                <ul className="space-y-2">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-sm">
-                      <span className="text-teal-600 mt-1">✓</span>
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          ))}
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">
+                  {service.title}
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  {service.description}
+                </p>
+              </div>
+            );
+          })}
         </div>
-        <Card className="bg-teal-50 border-teal-200">
-          <CardContent className="p-6">
-            <h3 className="text-xl font-semibold mb-3 text-gray-900">
-              Service Area
-            </h3>
-            <p className="text-gray-700">
-              Serving Anchorage, Eagle River, Wasilla, Palmer, and surrounding
-              areas. Travel fees may apply for locations outside the primary
-              service area. Contact us for availability in other Alaska
-              communities.
-            </p>
-          </CardContent>
-        </Card>
       </div>
     </section>
   );

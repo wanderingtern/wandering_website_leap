@@ -1,5 +1,4 @@
-import { HelpCircle, Home, Wrench } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { HelpCircle, Lightbulb, Home } from "lucide-react";
 
 const questions = [
   {
@@ -9,7 +8,7 @@ const questions = [
       "I'll help you understand which programs you qualify for and how to maximize your rebates.",
   },
   {
-    icon: Wrench,
+    icon: Lightbulb,
     title: "Which improvements matter?",
     description:
       "Not all upgrades are equal. I'll show you which ones will actually save you money.",
@@ -24,30 +23,28 @@ const questions = [
 
 export default function CommonQuestions() {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-20 bg-slate-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">
-          Common Questions
-        </h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          {questions.map((question, index) => (
-            <Card
-              key={index}
-              className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-            >
-              <CardContent className="p-6 text-center">
-                <div className="mb-4 flex justify-center">
-                  <div className="rounded-full bg-teal-100 p-4">
-                    <question.icon className="h-8 w-8 text-teal-600" />
-                  </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {questions.map((question, index) => {
+            const Icon = question.icon;
+            return (
+              <div
+                key={index}
+                className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+              >
+                <div className="flex items-center justify-center w-16 h-16 bg-teal-100 rounded-full mb-6">
+                  <Icon className="h-8 w-8 text-teal-600" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-gray-900">
+                <h3 className="text-xl font-bold text-slate-900 mb-4">
                   {question.title}
                 </h3>
-                <p className="text-gray-600">{question.description}</p>
-              </CardContent>
-            </Card>
-          ))}
+                <p className="text-slate-600 leading-relaxed">
+                  {question.description}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

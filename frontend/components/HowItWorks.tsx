@@ -1,29 +1,25 @@
-import { Calendar, ClipboardCheck, FileText, Phone } from "lucide-react";
+import { Phone, Calendar, ClipboardList, FileText } from "lucide-react";
 
 const steps = [
   {
-    number: 1,
     icon: Phone,
     title: "Contact Us",
     description:
       "Call or fill out the form. We'll discuss your needs and schedule an appointment.",
   },
   {
-    number: 2,
     icon: Calendar,
     title: "Schedule Audit",
     description:
       "We'll set a convenient time. The audit typically takes 2-3 hours.",
   },
   {
-    number: 3,
-    icon: ClipboardCheck,
+    icon: ClipboardList,
     title: "On-Site Assessment",
     description:
       "Comprehensive testing including blower door, thermal imaging, and inspection.",
   },
   {
-    number: 4,
     icon: FileText,
     title: "Receive Report",
     description:
@@ -33,35 +29,47 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
             How It Works
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Simple process from start to finish
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+            Simple, straightforward process from start to finish
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, index) => (
-            <div key={index} className="text-center">
-              <div className="mb-4 flex justify-center">
-                <div className="relative">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-teal-600 text-white text-2xl font-bold">
-                    {step.number}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <div
+                key={index}
+                className="relative text-center group"
+              >
+                <div className="flex flex-col items-center">
+                  <div className="relative">
+                    <div className="flex items-center justify-center w-20 h-20 bg-teal-600 rounded-full mb-6 group-hover:bg-teal-700 transition-colors">
+                      <Icon className="h-10 w-10 text-white" />
+                    </div>
+                    <div className="absolute -top-2 -right-2 w-10 h-10 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                      {index + 1}
+                    </div>
                   </div>
-                  <div className="absolute -bottom-2 -right-2 flex h-10 w-10 items-center justify-center rounded-full bg-teal-100">
-                    <step.icon className="h-5 w-5 text-teal-600" />
-                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">
+                    {step.title}
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    {step.description}
+                  </p>
                 </div>
+                {index < steps.length - 1 && (
+                  <div className="hidden lg:block absolute top-10 left-full w-full h-0.5 bg-teal-200 -translate-x-1/2" />
+                )}
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900">
-                {step.title}
-              </h3>
-              <p className="text-gray-600">{step.description}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
