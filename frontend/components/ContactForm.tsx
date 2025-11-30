@@ -73,8 +73,11 @@ export default function ContactForm() {
               className="relative h-64 lg:h-full min-h-[300px] rounded-xl overflow-hidden shadow-lg bg-cover bg-center"
               style={{
                 backgroundImage:
-                  "url(https://images.unsplash.com/photo-1542259009477-d625272157b7?w=800&q=80)",
+                  "url(https://images.unsplash.com/photo-1722248214740-d35304c6ca2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080)",
               }}
+              data-unsplash-id="uSwzOTGgJHc"
+              data-unsplash-author="Lisa Anna"
+              data-unsplash-query="warm woodstove cozy alaska cabin"
             >
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-slate-900/20" />
               <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
