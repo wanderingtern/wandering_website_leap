@@ -15,7 +15,7 @@ export async function sendContactNotification(
     // Leap injects secrets as environment variables at runtime
     const resendApiKey = process.env.RESEND_API_KEY || "";
     const recipientEmail = process.env.CONTACT_EMAIL || "matt@wanderingtern.com";
-    const fromEmail = process.env.FROM_EMAIL || "onboarding@resend.dev";
+    const fromEmail = process.env.FROM_EMAIL || "noreply@wanderingtern.com";
 
     console.log("Email notification attempt:", {
       hasApiKey: !!resendApiKey,
