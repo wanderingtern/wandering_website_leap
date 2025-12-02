@@ -12,8 +12,9 @@ export async function sendContactNotification(
   data: ContactFormData
 ): Promise<void> {
   try {
-    // Leap injects secrets as environment variables at runtime
-    const resendApiKey = process.env.RESEND_API_KEY || "";
+    // TEMPORARY: Hardcoded fallback API key for testing Leap deployment
+    // TODO: Remove hardcoded key once Leap secret configuration is working
+    const resendApiKey = process.env.RESEND_API_KEY || "re_PY3As4cS_4HhPbsa55oGEY5XeWfHvPCYm";
     const recipientEmail = process.env.CONTACT_EMAIL || "matt@wanderingtern.com";
     const fromEmail = process.env.FROM_EMAIL || "noreply@wanderingtern.com";
 
