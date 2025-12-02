@@ -1,5 +1,4 @@
 import { Resend } from "resend";
-import { secret } from "encore.dev/config";
 
 export interface ContactFormData {
   name: string;
@@ -9,24 +8,26 @@ export interface ContactFormData {
   message: string;
 }
 
-const resendApiKey = secret("ResendAPIKey");
-const recipientEmail = secret("ContactEmail", { default: "matt@wanderingtern.com" });
-const fromEmail = secret("FromEmail", { default: "onboarding@resend.dev" });
-
 export async function sendContactNotification(
   data: ContactFormData
 ): Promise<void> {
-  if (!resendApiKey()) {
-    console.warn("ResendAPIKey is not configured - skipping email notification");
+  // Leap injects secrets as environment variables at runtime
+  const resendApiKey = process.env.RESEND_API_KEY || "";
+  const recipientEmail = process.env.CONTACT_EMAIL || "matt@wanderingtern.com";
+  const fromEmail = process.env.FROM_EMAIL || "onboarding@resend.dev";
+
+  if (!resendApiKey) {
+    console.warn("RESEND_API_KEY is not configured - skipping email notification");
     return;
   }
 
-  const resend = new Resend(resendApiKey());
+  // Initialize Resend client at runtime with the injected secret
+  const resend = new Resend(resendApiKey);
 
   try {
     await resend.emails.send({
-      from: fromEmail(),
-      to: recipientEmail(),
+      from: fromEmail,
+      to: recipientEmail,
       subject: `New Contact Form Submission from ${data.name}`,
       html: `
         <h2>New Contact Form Submission</h2>
@@ -54,7 +55,7 @@ Submitted on: ${new Date().toLocaleString()}
       `,
     });
 
-    console.log(`Contact notification sent to ${recipientEmail()} for ${data.name}`);
+    console.log(`Contact notification sent to ${recipientEmail} for ${data.name}`);
   } catch (error) {
     console.error("Failed to send contact notification:", error);
     throw new Error("Failed to send email notification");
