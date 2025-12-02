@@ -10,8 +10,8 @@ export interface ContactFormData {
 }
 
 const resendApiKey = secret("ResendAPIKey");
-const recipientEmail = secret("ContactEmail");
-const fromEmail = secret("FromEmail");
+const recipientEmail = secret("ContactEmail", { default: "matt@wanderingtern.com" });
+const fromEmail = secret("FromEmail", { default: "onboarding@resend.dev" });
 
 export async function sendContactNotification(
   data: ContactFormData
