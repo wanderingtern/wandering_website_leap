@@ -1,4 +1,4 @@
-import { Resend } from "resend";
+// import { Resend } from "resend";
 
 export interface ContactFormData {
   name: string;
@@ -11,6 +11,17 @@ export interface ContactFormData {
 export async function sendContactNotification(
   data: ContactFormData
 ): Promise<void> {
+  // Temporarily disabled email notifications to allow deployment
+  // TODO: Re-enable after resolving Leap secret configuration issues
+  console.log("Contact form submission received:", {
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    address: data.address,
+    messagePreview: data.message.substring(0, 50) + "..."
+  });
+
+  /* Email functionality temporarily commented out
   try {
     // Leap injects secrets as environment variables at runtime
     const resendApiKey = process.env.RESEND_API_KEY || "";
@@ -60,4 +71,5 @@ Submitted on: ${new Date().toLocaleString()}
     console.error("Failed to send contact notification:", error);
     // Don't rethrow - let the service continue even if email fails
   }
+  */
 }
