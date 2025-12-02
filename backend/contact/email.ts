@@ -1,13 +1,5 @@
 import { Resend } from "resend";
 
-// Encore will automatically inject secrets from environment variables
-// Set RESEND_API_KEY in your Encore secrets
-const resendApiKey = process.env.RESEND_API_KEY || "";
-const recipientEmail = process.env.CONTACT_EMAIL || "matt@wanderingtern.com";
-const fromEmail = process.env.FROM_EMAIL || "onboarding@resend.dev";
-
-const resend = new Resend(resendApiKey);
-
 export interface ContactFormData {
   name: string;
   email: string;
@@ -19,10 +11,19 @@ export interface ContactFormData {
 export async function sendContactNotification(
   data: ContactFormData
 ): Promise<void> {
+  // Get environment variables at runtime (not at module load time)
+  // This ensures Leap-injected secrets are available
+  const resendApiKey = process.env.RESEND_API_KEY || "";
+  const recipientEmail = process.env.CONTACT_EMAIL || "matt@wanderingtern.com";
+  const fromEmail = process.env.FROM_EMAIL || "onboarding@resend.dev";
+
   if (!resendApiKey) {
     console.error("RESEND_API_KEY is not configured");
     throw new Error("Email service is not configured");
   }
+
+  // Initialize Resend client with the runtime API key
+  const resend = new Resend(resendApiKey);
 
   try {
     await resend.emails.send({
