@@ -37,12 +37,16 @@ export const submit = api<SubmitContactRequest, SubmitContactResponse>(
       VALUES (${params.name}, ${params.email}, ${params.phone}, ${params.address || null}, ${params.message}, ${photoUrl})
     `;
 
-    // Send email notification
     try {
-      await sendContactNotification(params);
+      await sendContactNotification({
+        name: params.name,
+        email: params.email,
+        phone: params.phone,
+        address: params.address,
+        message: params.message,
+        photoUrl: photoUrl || undefined,
+      });
     } catch (error) {
-      // Log the error but don't fail the request
-      // The contact is already saved in the database
       console.error("Failed to send email notification:", error);
     }
 
