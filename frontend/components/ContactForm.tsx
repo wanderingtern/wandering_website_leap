@@ -32,7 +32,7 @@ export default function ContactForm() {
         toast({
           title: "File too large",
           description: "Please select a file smaller than 10MB.",
-          variant: "destructive",
+          className: "border-2 border-red-500 bg-white text-red-600",
         });
         return;
       }
@@ -40,7 +40,7 @@ export default function ContactForm() {
         toast({
           title: "Invalid file type",
           description: "Please select an image file.",
-          variant: "destructive",
+          className: "border-2 border-red-500 bg-white text-red-600",
         });
         return;
       }
@@ -95,7 +95,7 @@ export default function ContactForm() {
       toast({
         title: "Validation Error",
         description: "Please fix the errors in the form before submitting.",
-        variant: "destructive",
+        className: "border-2 border-red-500 bg-white text-red-600",
       });
       return;
     }
@@ -156,7 +156,7 @@ export default function ContactForm() {
         title: "Error",
         description:
           "There was a problem submitting your form. Please try again or call us directly.",
-        variant: "destructive",
+        className: "border-2 border-red-500 bg-white text-red-600",
       });
     } finally {
       setIsSubmitting(false);
