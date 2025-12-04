@@ -18,6 +18,12 @@ export default function ContactForm() {
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [photoObjectName, setPhotoObjectName] = useState<string | null>(null);
+  const [errors, setErrors] = useState<{
+    name?: string;
+    email?: string;
+    phone?: string;
+    message?: string;
+  }>({});
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -47,8 +53,53 @@ export default function ContactForm() {
     setPhotoObjectName(null);
   };
 
+  const validateForm = () => {
+    const newErrors: typeof errors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    const phoneRegex = /^[\d\s()+-]+$/;
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (formData.phone.replace(/[\s()+-]/g, "").length < 10) {
+      newErrors.phone = "Please enter a valid phone number";
+    } else if (!phoneRegex.test(formData.phone)) {
+      newErrors.phone = "Phone number can only contain numbers, spaces, and +()-";
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      toast({
+        title: "Validation Error",
+        description: "Please fix the errors in the form before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -98,6 +149,7 @@ export default function ContactForm() {
       });
       setSelectedFile(null);
       setPhotoObjectName(null);
+      setErrors({});
     } catch (error) {
       console.error("Error submitting contact form:", error);
       toast({
@@ -179,12 +231,16 @@ export default function ContactForm() {
                   type="text"
                   required
                   value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  className="w-full"
+                  onChange={(e) => {
+                    setFormData({ ...formData, name: e.target.value });
+                    if (errors.name) setErrors({ ...errors, name: undefined });
+                  }}
+                  className={`w-full ${errors.name ? "border-red-500" : ""}`}
                   placeholder="Your name"
                 />
+                {errors.name && (
+                  <p className="text-sm text-red-500 mt-1">{errors.name}</p>
+                )}
               </div>
 
               <div>
@@ -199,12 +255,16 @@ export default function ContactForm() {
                   type="email"
                   required
                   value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  className="w-full"
+                  onChange={(e) => {
+                    setFormData({ ...formData, email: e.target.value });
+                    if (errors.email) setErrors({ ...errors, email: undefined });
+                  }}
+                  className={`w-full ${errors.email ? "border-red-500" : ""}`}
                   placeholder="your.email@example.com"
                 />
+                {errors.email && (
+                  <p className="text-sm text-red-500 mt-1">{errors.email}</p>
+                )}
               </div>
 
               <div>
@@ -219,12 +279,16 @@ export default function ContactForm() {
                   type="tel"
                   required
                   value={formData.phone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, phone: e.target.value })
-                  }
-                  className="w-full"
+                  onChange={(e) => {
+                    setFormData({ ...formData, phone: e.target.value });
+                    if (errors.phone) setErrors({ ...errors, phone: undefined });
+                  }}
+                  className={`w-full ${errors.phone ? "border-red-500" : ""}`}
                   placeholder="(907) 555-1234"
                 />
+                {errors.phone && (
+                  <p className="text-sm text-red-500 mt-1">{errors.phone}</p>
+                )}
               </div>
 
               <div>
@@ -257,13 +321,17 @@ export default function ContactForm() {
                   id="message"
                   required
                   value={formData.message}
-                  onChange={(e) =>
-                    setFormData({ ...formData, message: e.target.value })
-                  }
+                  onChange={(e) => {
+                    setFormData({ ...formData, message: e.target.value });
+                    if (errors.message) setErrors({ ...errors, message: undefined });
+                  }}
                   rows={5}
-                  className="w-full"
+                  className={`w-full ${errors.message ? "border-red-500" : ""}`}
                   placeholder="Tell us about your needs..."
                 />
+                {errors.message && (
+                  <p className="text-sm text-red-500 mt-1">{errors.message}</p>
+                )}
               </div>
 
               <div>
