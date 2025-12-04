@@ -6,6 +6,7 @@ import WhyWanderingTern from "./components/WhyWanderingTern";
 import HowItWorks from "./components/HowItWorks";
 import ContactForm from "./components/ContactForm";
 import Footer from "./components/Footer";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
       <HowItWorks />
       <ContactForm />
       <Footer />
+      <Toaster />
     </div>
   );
 }
