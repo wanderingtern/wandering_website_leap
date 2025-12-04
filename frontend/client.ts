@@ -83,6 +83,7 @@ export interface ClientOptions {
  * Import the endpoint handlers to derive the types for the client.
  */
 import { submit as api_contact_submit_submit } from "~backend/contact/submit";
+import { getUploadUrl as api_contact_upload_url_getUploadUrl } from "~backend/contact/upload_url";
 
 export namespace contact {
 
@@ -91,7 +92,14 @@ export namespace contact {
 
         constructor(baseClient: BaseClient) {
             this.baseClient = baseClient
+            this.getUploadUrl = this.getUploadUrl.bind(this)
             this.submit = this.submit.bind(this)
+        }
+
+        public async getUploadUrl(params: RequestType<typeof api_contact_upload_url_getUploadUrl>): Promise<ResponseType<typeof api_contact_upload_url_getUploadUrl>> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI(`/contact/upload-url`, {method: "POST", body: JSON.stringify(params)})
+            return JSON.parse(await resp.text(), dateReviver) as ResponseType<typeof api_contact_upload_url_getUploadUrl>
         }
 
         public async submit(params: RequestType<typeof api_contact_submit_submit>): Promise<ResponseType<typeof api_contact_submit_submit>> {

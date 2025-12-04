@@ -1,6 +1,7 @@
 import { api } from "encore.dev/api";
 import db from "../db";
 import { sendContactNotification } from "./email";
+import { contactPhotos } from "./storage";
 
 export interface SubmitContactRequest {
   name: string;
@@ -8,6 +9,7 @@ export interface SubmitContactRequest {
   phone: string;
   address?: string;
   message: string;
+  photoObjectName?: string;
 }
 
 export interface SubmitContactResponse {
@@ -18,10 +20,21 @@ export interface SubmitContactResponse {
 export const submit = api<SubmitContactRequest, SubmitContactResponse>(
   { expose: true, method: "POST", path: "/contact/submit" },
   async (params) => {
-    // Save to database
+    let photoUrl: string | null = null;
+
+    if (params.photoObjectName) {
+      try {
+        photoUrl = await contactPhotos.signedDownloadUrl(params.photoObjectName, {
+          ttl: 604800,
+        }).then(result => result.url);
+      } catch (error) {
+        console.error("Failed to generate photo download URL:", error);
+      }
+    }
+
     await db.exec`
-      INSERT INTO contacts (name, email, phone, address, message)
-      VALUES (${params.name}, ${params.email}, ${params.phone}, ${params.address || null}, ${params.message})
+      INSERT INTO contacts (name, email, phone, address, message, photo_url)
+      VALUES (${params.name}, ${params.email}, ${params.phone}, ${params.address || null}, ${params.message}, ${photoUrl})
     `;
 
     // Send email notification

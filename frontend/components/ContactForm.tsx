@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, Mail, MapPin, Send } from "lucide-react";
+import { Phone, Mail, MapPin, Send, Upload, X } from "lucide-react";
 import backend from "~backend/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
@@ -16,18 +16,72 @@ export default function ContactForm() {
     address: "",
     message: "",
   });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [photoObjectName, setPhotoObjectName] = useState<string | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: "Please select a file smaller than 10MB.",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (!file.type.startsWith("image/")) {
+        toast({
+          title: "Invalid file type",
+          description: "Please select an image file.",
+          variant: "destructive",
+        });
+        return;
+      }
+      setSelectedFile(file);
+    }
+  };
+
+  const removeFile = () => {
+    setSelectedFile(null);
+    setPhotoObjectName(null);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
+      let uploadedObjectName: string | undefined;
+
+      if (selectedFile) {
+        const uploadUrlResponse = await backend.contact.getUploadUrl({
+          filename: selectedFile.name,
+        });
+
+        const uploadResponse = await fetch(uploadUrlResponse.uploadUrl, {
+          method: "PUT",
+          body: selectedFile,
+          headers: {
+            "Content-Type": selectedFile.type,
+          },
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error("Failed to upload photo");
+        }
+
+        uploadedObjectName = uploadUrlResponse.objectName;
+        setPhotoObjectName(uploadedObjectName);
+      }
+
       const response = await backend.contact.submit({
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
         address: formData.address || undefined,
         message: formData.message,
+        photoObjectName: uploadedObjectName,
       });
 
       toast({
@@ -42,6 +96,8 @@ export default function ContactForm() {
         address: "",
         message: "",
       });
+      setSelectedFile(null);
+      setPhotoObjectName(null);
     } catch (error) {
       console.error("Error submitting contact form:", error);
       toast({
@@ -208,6 +264,52 @@ export default function ContactForm() {
                   className="w-full"
                   placeholder="Tell us about your needs..."
                 />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="photo"
+                  className="block text-sm font-semibold text-slate-900 mb-2"
+                >
+                  Attach Photo (optional)
+                </label>
+                <div className="space-y-2">
+                  {selectedFile ? (
+                    <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
+                      <Upload className="h-5 w-5 text-teal-600" />
+                      <span className="flex-1 text-sm text-slate-700 truncate">
+                        {selectedFile.name}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={removeFile}
+                        className="text-slate-400 hover:text-slate-600 transition-colors"
+                      >
+                        <X className="h-5 w-5" />
+                      </button>
+                    </div>
+                  ) : (
+                    <label
+                      htmlFor="photo"
+                      className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-teal-600 transition-colors"
+                    >
+                      <Upload className="h-5 w-5 text-slate-400" />
+                      <span className="text-sm text-slate-600">
+                        Click to upload a photo
+                      </span>
+                      <input
+                        id="photo"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
+                    </label>
+                  )}
+                  <p className="text-xs text-slate-500">
+                    Max file size: 10MB. Supported formats: JPG, PNG, GIF
+                  </p>
+                </div>
               </div>
 
               <Button
